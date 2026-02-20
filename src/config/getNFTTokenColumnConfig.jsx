@@ -10,7 +10,7 @@ export const getNFTTokenColumnConfig = () => {
       dataIndex: "tokenAddress",
       key: "tokenAddress",
       render: (tokenAddress) => (
-        <Link to={`/address/${tokenAddress}`} className="text-blue-500">
+        <Link to={`/address/${tokenAddress}`} className="text-link font-mono text-sm">
           {truncateAddress(tokenAddress)}
         </Link>
       ),
@@ -20,7 +20,7 @@ export const getNFTTokenColumnConfig = () => {
       dataIndex: "tokenId",
       key: "tokenId",
       render: (tokenId) => (
-        <span className="font-bold">{`NFT #${tokenId}`}</span>
+        <span className="font-semibold text-sm">{`NFT #${tokenId}`}</span>
       ),
     },
   ];

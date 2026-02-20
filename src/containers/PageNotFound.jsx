@@ -1,14 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const PageNotFound = () => {
   return (
-    <div className="hero h-4/5 bg-base-200">
-      <div className="hero-content text-accent text-center">
-        <div className="max-w-md">
-          <h1 className="text-5xl  font-bold">404 - Not Found</h1>
-          <p>The page you are looking for does not exist.</p>
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
+      <div className="p-4 rounded-full bg-muted mb-6">
+        <ExclamationTriangleIcon className="w-12 h-12 text-muted-foreground" />
       </div>
+      <h1 className="text-4xl font-bold text-foreground mb-2">404</h1>
+      <p className="text-muted-foreground mb-6">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+      <Link
+        to="/"
+        className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
+      >
+        Go Home
+      </Link>
     </div>
   );
 };

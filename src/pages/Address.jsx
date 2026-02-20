@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 import Divider from "../components/UI/Divider";
-import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
+import CopyBlock from "../components/CopyBlock";
 import AddressOverview from "../containers/Address/AddressOverview";
 import TransactionInfo from "../containers/Address/TransactionInfo";
 import MoreInfo from "../containers/Address/MoreInfo";
@@ -31,29 +32,44 @@ const AddressPage = () => {
   const { contractDetails } = useContractDetails(address);
 
   return (
-    <div className="p-6">
-      <div>
-        <div className="flex flex-col">
-          <div className="flex align-middle font-varela items-center content-center">
-            <span className="col-span-16 font-bold text-lg">Address </span>
-            <span className="col-span-16 mx-2 text-md">{address}</span>
-            <DocumentDuplicateIcon className="w-3 h-3" />
-          </div>
-
-          <span className="text-gray">ENS: ENS NAME 🔥 </span>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-start gap-3">
+        <div className="p-2 rounded-lg bg-muted">
+          <UserIcon className="w-5 h-5 text-primary" />
         </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h1 className="text-xl font-bold text-foreground">
+              {isContractAddress ? "Contract" : "Address"}
+            </h1>
+            {isContractAddress && (
+              <span className="px-2 py-0.5 text-xs rounded-md bg-primary/10 text-primary font-medium">
+                Contract
+              </span>
+            )}
+          </div>
+          <div className="mt-1">
+            <CopyBlock value={address} />
+          </div>
+        </div>
+      </div>
 
-        <Divider />
+      <Divider />
 
-        <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="rounded-xl border border-border bg-card shadow-card p-5">
           <AddressOverview
             ethBalance={summary.balance}
             usdBalance={summary.usdValue}
           />
+        </div>
+        <div className="rounded-xl border border-border bg-card shadow-card p-5">
           <TransactionInfo
             ethBalance={summary.balance}
             usdBalance={summary.usdValue}
           />
+        </div>
+        <div className="rounded-xl border border-border bg-card shadow-card p-5">
           {!isContractAddress ? (
             <MoreInfo
               totalTxs={totalTransactions || null}
@@ -69,30 +85,26 @@ const AddressPage = () => {
             />
           )}
         </div>
+      </div>
 
-        <div>
-          {/* For Address */}
-          {!isContractAddress ? (
-            <AddressSection
-              transactions={transactions}
-              tokenTransfers={tokenTransfers}
-              nftTransfers={nftTransfers}
-            />
-          ) : (
-            <AddressContractSection
-              transactions={transactions}
-              tokenTransfers={tokenTransfers}
-              nftTransfers={nftTransfers}
-              deploymentCode={contractCreationTx?.data}
-              creationCode={contractDetails?.deploymentCode}
-              contractCreator={contractCreationTx?.from}
-              contractTxHash={contractCreationTx?.hash}
-            />
-          )}
-
-          {/* For Contracts */}
-          {/* <AddressContractSection /> */}
-        </div>
+      <div>
+        {!isContractAddress ? (
+          <AddressSection
+            transactions={transactions}
+            tokenTransfers={tokenTransfers}
+            nftTransfers={nftTransfers}
+          />
+        ) : (
+          <AddressContractSection
+            transactions={transactions}
+            tokenTransfers={tokenTransfers}
+            nftTransfers={nftTransfers}
+            deploymentCode={contractCreationTx?.data}
+            creationCode={contractDetails?.deploymentCode}
+            contractCreator={contractCreationTx?.from}
+            contractTxHash={contractCreationTx?.hash}
+          />
+        )}
       </div>
     </div>
   );

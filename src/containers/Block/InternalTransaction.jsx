@@ -22,79 +22,53 @@ const COLUMNS = [
     dataIndex: "block",
     key: "block",
     render: (blockNumber) => (
-      <Link className="text-[#1677ff]" to={`/tx/${blockNumber}`}>
+      <Link className="text-link font-semibold" to={`/tx/${blockNumber}`}>
         {blockNumber}
       </Link>
     ),
   },
-  {
-    title: "Date time",
-    dataIndex: "date",
-    key: "date",
-  },
+  { title: "Date Time", dataIndex: "date", key: "date" },
   {
     title: "Validator",
     dataIndex: "validator",
     key: "validator",
-    render: (text) => <span className="font-bold">{text}</span>,
+    render: (text) => <span className="font-medium">{text}</span>,
   },
+  { title: "Txns", dataIndex: "txs", key: "txs" },
+  { title: "Block Size", dataIndex: "blockSize", key: "blockSize" },
+  { title: "Gas Used", dataIndex: "gasUsed", key: "gasUsed" },
+  { title: "Gas Limit", dataIndex: "gasLimit", key: "gasLimit" },
   {
-    title: "Txns",
-    dataIndex: "txs",
-    key: "txs",
-  },
-  {
-    title: "Block size",
-    dataIndex: "blockSize",
-    key: "blockSize",
-  },
-  {
-    title: "Gas used",
-    dataIndex: "gasUsed",
-    key: "gasUsed",
-  },
-  {
-    title: "Gas limit",
-    dataIndex: "gasLimit",
-    key: "gasLimit",
-  },
-  {
-    title: "Avg. Gas price",
+    title: "Avg. Gas Price",
     dataIndex: "gasPrice",
     key: "gasPrice",
-    render: (text) => <span className="font-bold">{text}</span>,
+    render: (text) => <span className="font-medium">{text}</span>,
   },
-  {
-    title: "Block rewards",
-    dataIndex: "blockRewards",
-    key: "blockRewards",
-  },
+  { title: "Block Rewards", dataIndex: "blockRewards", key: "blockRewards" },
 ];
 
 const InternalTransaction = () => {
   const dataSource = useMemo(() => {
     let data = [];
-
     for (let i = 0; i <= Math.random() * 1000; i++) {
       data.push({ ...DATA, key: i });
     }
-
     return data;
   }, []);
-  return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>Total 108 calls with ETH transfer and contract creation</span>
-        <span>Hide zero-amount txns</span>
-      </div>
 
+  return (
+    <div className="p-5">
+      <p className="text-muted-foreground text-sm mb-4">
+        Internal transactions with ETH transfer and contract creation
+      </p>
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={COLUMNS}
         dataSource={dataSource}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>

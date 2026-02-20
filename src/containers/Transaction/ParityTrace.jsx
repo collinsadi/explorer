@@ -54,14 +54,14 @@ const ParityTrace = ({ transaction }) => {
   const { trace } = useParityTraceTransaction(transaction.hash);
 
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>Total 3 actions</span>
-      </div>
+    <div className="p-5">
+      <p className="text-muted-foreground text-sm mb-4">
+        Total {OVERVIEW.length} actions
+      </p>
 
-      {OVERVIEW.map((data) => {
+      {OVERVIEW.map((data, idx) => {
         return (
-          <div className="mt-2">
+          <div key={idx} className="mb-2">
             {Object.keys(data).map((k) => {
               return (
                 <ListItem
@@ -73,7 +73,6 @@ const ParityTrace = ({ transaction }) => {
                 />
               );
             })}
-
             <Divider />
           </div>
         );

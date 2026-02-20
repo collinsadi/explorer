@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 
 import Divider from "../components/UI/Divider";
 import TabButton from "../components/UI/TabButton";
@@ -13,11 +14,10 @@ import CopyBlock from "../components/CopyBlock";
 
 const TABS = [
   { id: 1, label: "Overview", value: "overview" },
-  { id: 4, label: "Geth traces", value: "gethTrace" },
-
+  { id: 4, label: "Geth Traces", value: "gethTrace" },
   { id: 2, label: "State", value: "state", disabled: true },
   { id: 3, label: "Internal Txs", value: "internalTxs", disabled: true },
-  { id: 5, label: "Parity traces", value: "paratyTrace", disabled: true },
+  { id: 5, label: "Parity Traces", value: "paratyTrace", disabled: true },
 ];
 
 const Transaction = () => {
@@ -45,29 +45,32 @@ const Transaction = () => {
   }, [activeTab, transaction]);
 
   return (
-    <div className="p-6">
-      <div>
-        <div className="grid font-varela">
-          <span className="col-span-16 font-bold text-lg">
-            Transaction details
-          </span>
-          <div className="flex text-sm col-span-16 mx-1 my-3">
-            <span className="mr-2 font-bold">Txn Hash:</span>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-start gap-3">
+        <div className="p-2 rounded-lg bg-muted">
+          <ArrowsRightLeftIcon className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <h1 className="text-xl font-bold text-foreground">
+            Transaction Details
+          </h1>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-muted-foreground text-sm">Txn Hash:</span>
             <CopyBlock value={hash} />
           </div>
         </div>
+      </div>
 
-        <Divider />
+      <Divider />
 
-        <div className="flex mt-3">
-          <TabButton
-            defaultActiveKey={activeTab}
-            items={TABS}
-            onTabButtonClick={onTabButtonClick}
-          />
-        </div>
+      <TabButton
+        defaultActiveKey={activeTab}
+        items={TABS}
+        onTabButtonClick={onTabButtonClick}
+      />
 
-        <div>{getActiveTabContent()}</div>
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        {getActiveTabContent()}
       </div>
     </div>
   );

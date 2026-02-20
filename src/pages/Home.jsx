@@ -64,7 +64,14 @@ const Home = () => {
   }, [transactions]);
 
   return (
-    <div className="p-6">
+    <div className="space-y-8 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold text-foreground mb-1">Dashboard</h1>
+        <p className="text-muted-foreground text-sm">
+          Overview of your local Hardhat blockchain
+        </p>
+      </div>
+
       <SummarySection
         isLoading={isStatsLoading}
         blockHeight={blockHeight}
@@ -73,6 +80,7 @@ const Home = () => {
         txn24hVolume={txn24hVolume}
         txnCost24hVolume={roundUpNumber(txnCost24hVolume)}
       />
+
       <BlockListSection
         isLoading={isBlockLoading || isTransactionLoading}
         blocks={blockData || []}

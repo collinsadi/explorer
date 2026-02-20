@@ -1,33 +1,39 @@
 import React from "react";
 
-const Stepper = ({ current, items }) => {
+const Stepper = ({ steps = [], currentStep = 0 }) => {
   return (
-    <div>
-      <ul className="relative flex flex-row gap-x-2 max-w-xs mx-auto">
-        {items.map(({ key, label }) => (
-          <li key={key} className="shrink basis-0 flex-1 group">
-            <div className="md:min-w-[250px] w-full inline-flex items-center text-xs align-middle">
-              <span
-                className={`flex size-7 justify-center items-center shrink-0 rounded-full dark:bg-neutral-700 dark:text-white ${
-                  current === key
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-100 text-gray-800"
-                }`}
-              >
-                {key}
-              </span>
-              <span
-                className={`ms-2 block grow md:grow-0 text-sm dark:text-white ${
-                  current === key ? "text-blue-500" : "text-gray-800"
-                } `}
-              >
-                {label}
-              </span>
-              <div className="ms-2 w-full h-px flex-1 bg-gray-200 group-last:hidden dark:bg-neutral-700"></div>
+    <div className="flex items-center justify-center gap-2 py-4">
+      {steps.map((step, index) => (
+        <React.Fragment key={index}>
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors ${
+                index <= currentStep
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {index + 1}
             </div>
-          </li>
-        ))}
-      </ul>
+            <span
+              className={`text-sm ${
+                index <= currentStep
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground"
+              }`}
+            >
+              {step}
+            </span>
+          </div>
+          {index < steps.length - 1 && (
+            <div
+              className={`h-px w-8 ${
+                index < currentStep ? "bg-primary" : "bg-border"
+              }`}
+            />
+          )}
+        </React.Fragment>
+      ))}
     </div>
   );
 };

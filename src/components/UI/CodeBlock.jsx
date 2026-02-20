@@ -15,28 +15,29 @@ const CodeBlock = ({ label, content, showCopy = false }) => {
 
   return (
     <div>
-      {!!label && (
-        <div className="flex text-center items-center my-2 text-black font-semibold mb-4 justify-between">
-          <span className="font-extrabold text-md">
+      {label && (
+        <div className="flex items-center justify-between my-2 mb-3">
+          <span className="font-semibold text-sm text-foreground">
             {"</> "} {label}
           </span>
-
           <div>
-            {showCopy && !hasCopied ? (
-              <div className="cursor-pointer" onClick={onCopyClick}>
-                <ClipboardDocumentIcon className="h-5 w-5" />
+            {showCopy && !hasCopied && (
+              <div
+                className="cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+                onClick={onCopyClick}
+              >
+                <ClipboardDocumentIcon className="h-4 w-4" />
               </div>
-            ) : null}
-
-            {showCopy && hasCopied ? (
-              <div className="cursor-pointer">
-                <ClipboardDocumentCheckIcon className="h-5 w-5" color="green" />
+            )}
+            {showCopy && hasCopied && (
+              <div>
+                <ClipboardDocumentCheckIcon className="h-4 w-4 text-success" />
               </div>
-            ) : null}
+            )}
           </div>
         </div>
       )}
-      <div className="bg-[#f9f9f9] border border-[#ebebeb] rounded-md text-[#3d3d3d] px-4 whitespace-break-spaces max-h-[200px] overflow-y-scroll">
+      <div className="bg-[var(--color-code-bg)] border border-[var(--color-code-border)] rounded-lg text-foreground px-4 py-3 font-mono text-xs whitespace-break-spaces max-h-[200px] overflow-y-auto">
         <div className="text-wrap break-words">{content}</div>
       </div>
     </div>

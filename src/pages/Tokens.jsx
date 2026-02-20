@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Table } from "antd";
 import { getTokenTransferColumnConfig } from "../config";
 import { useTokenList } from "../hooks";
@@ -12,24 +12,31 @@ const Tokens = () => {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>Total {tokens?.length} transactions for token transfer </span>
+    <div className="space-y-6 animate-fade-in">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">ERC-20 Token Transfers</h1>
+        <p className="text-muted-foreground text-sm mt-1">
+          Total {tokens?.length || 0} token transfer transactions
+        </p>
       </div>
 
-      <Table
-        size="large"
-        className={`mt-4 overflow-x-scroll ${loading && "animate-pulse"}`}
-        columns={[...getTokenTransferColumnConfig()]}
-        dataSource={tokens || []}
-        onChange={onTableChange}
-        pagination={{
-          position: "bottom-right",
-          current: pageNumber,
-          pageSize: 10,
-          total: tokens.length,
-        }}
-      />
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        <Table
+          size="middle"
+          className={loading ? "animate-pulse" : ""}
+          columns={[...getTokenTransferColumnConfig()]}
+          dataSource={tokens || []}
+          onChange={onTableChange}
+          scroll={{ x: true }}
+          pagination={{
+            position: ["bottomRight"],
+            current: pageNumber,
+            pageSize: 10,
+            total: tokens.length,
+            showSizeChanger: false,
+          }}
+        />
+      </div>
     </div>
   );
 };

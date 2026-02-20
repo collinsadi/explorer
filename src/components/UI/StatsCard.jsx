@@ -9,21 +9,25 @@ const StatsCard = ({
   isLoading = false,
 }) => {
   return (
-    <div className={`p-4 text-center ${!!isLoading && "animate-pulse"}`}>
-      <h3 className="text-gray-600 font-semibold text-sm mb-2">{label}</h3>
-      <div className="flex justify-center items-center space-x-2">
+    <div className={`p-4 text-center ${isLoading ? "animate-pulse" : ""}`}>
+      <p className="text-muted-foreground font-medium text-xs uppercase tracking-wider mb-2">
+        {label}
+      </p>
+      <div className="flex justify-center items-baseline gap-1.5">
         {link ? (
-          <div className="flex flex-row items-center">
-            <Link to={link} className="flex items-center">
-              <span className="font-bold text-xl">{value}</span>
-            </Link>
-            {unit && <span className="text-sm text-gray-500 ml-1">{unit}</span>}
-          </div>
+          <Link
+            to={link}
+            className="text-link font-bold text-xl hover:opacity-80 transition-opacity"
+          >
+            {value}
+          </Link>
         ) : (
-          <>
-            <span className="font-bold text-xl">{value}</span>
-            {unit && <span className="text-sm text-gray-500 ml-1">{unit}</span>}
-          </>
+          <span className="font-bold text-xl text-foreground">{value}</span>
+        )}
+        {unit && (
+          <span className="text-xs text-muted-foreground font-medium">
+            {unit}
+          </span>
         )}
       </div>
     </div>

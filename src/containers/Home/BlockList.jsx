@@ -9,58 +9,57 @@ import { useNavigate } from "react-router-dom";
 const BlockListCard = ({ blocks, transactions, isLoading }) => {
   const navigate = useNavigate();
 
-  const onBlockClick = () => {
-    navigate("/block-list");
-  };
-
-  const onTransactionClick = () => {
-    navigate("/txs");
-  };
+  const onBlockClick = () => navigate("/block-list");
+  const onTransactionClick = () => navigate("/txs");
 
   return (
-    <div className="container py-8 mx-auto">
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
-        <div className="shadow-md border rounded p-6 overflow-hidden hidden md:block">
-          <div className="flex justify-between items-center mb-4 px-2">
-            <Title className="p-0">Blocks</Title>
-
-            <ArrowRightIcon
-              className="ml-2 w-4 h-4 cursor-pointer"
-              onClick={onBlockClick}
-            />
-          </div>
-          <div className="divide-y max-h-[470px] overflow-scroll">
-            {blocks.map((block, index) => (
-              <BlockCard isLoading={isLoading} key={index} {...block} />
-            ))}
-          </div>
-          <div className="px-2 mt-4 mb-0 flex w-full">
-            <Button label="Show All" onClick={onBlockClick} />
-          </div>
+    <div className="grid gap-6 lg:grid-cols-2">
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <Title>Latest Blocks</Title>
+          <button
+            onClick={onBlockClick}
+            className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowRightIcon className="w-4 h-4" />
+          </button>
         </div>
+        <div className="divide-y divide-border max-h-[480px] overflow-y-auto px-2">
+          {blocks.map((block, index) => (
+            <BlockCard isLoading={isLoading} key={index} {...block} />
+          ))}
+        </div>
+        <div className="p-3 border-t border-border">
+          <Button label="View All Blocks" variant="secondary" onClick={onBlockClick} />
+        </div>
+      </div>
 
-        <div className="shadow-md border rounded p-6 overflow-hidden">
-          <div className="flex justify-between items-center mb-4 px-2">
-            <Title className="p-0">Transactions</Title>
-
-            <ArrowRightIcon
-              className="ml-2 w-4 h-4 cursor-pointer"
-              onClick={onTransactionClick}
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <Title>Latest Transactions</Title>
+          <button
+            onClick={onTransactionClick}
+            className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowRightIcon className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="divide-y divide-border max-h-[480px] overflow-y-auto px-2">
+          {transactions.map((tx, index) => (
+            <BlockCard
+              isLoading={isLoading}
+              key={index}
+              {...tx}
+              isTransaction
             />
-          </div>
-          <div className="divide-y max-h-[470px] overflow-scroll">
-            {transactions.map((block, index) => (
-              <BlockCard
-                isLoading={isLoading}
-                key={index}
-                {...block}
-                isTransaction
-              />
-            ))}
-          </div>
-          <div className="px-2 mt-4 mb-0 flex w-full">
-            <Button label="Show All" onClick={onTransactionClick} />
-          </div>
+          ))}
+        </div>
+        <div className="p-3 border-t border-border">
+          <Button
+            label="View All Transactions"
+            variant="secondary"
+            onClick={onTransactionClick}
+          />
         </div>
       </div>
     </div>

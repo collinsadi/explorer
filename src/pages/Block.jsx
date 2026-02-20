@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { CubeIcon } from "@heroicons/react/24/outline";
 
 import Divider from "../components/UI/Divider";
 import TabButton from "../components/UI/TabButton";
@@ -71,34 +72,45 @@ const Block = () => {
   }, [activeTab, id, block]);
 
   return (
-    <div className="p-6">
-      <div>
-        <div className="flex flex-row font-varela font-bold">
-          <span className="text-lg">Block</span>
-          <div className="flex flex-row justify-items-center items-center ml-4">
-            <ChevronLeftIcon
-              className="w-3 h-3 cursor-pointer"
-              onClick={onPreviousBlockClick}
-            />
-            <span className="text-md mx-1">{id || ""}</span>
-            <ChevronRightIcon
-              className="w-3 h-3 cursor-pointer"
-              onClick={onNextBlockClick}
-            />
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-center gap-3">
+        <div className="p-2 rounded-lg bg-muted">
+          <CubeIcon className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-bold text-foreground">Block</h1>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={onPreviousBlockClick}
+                className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ChevronLeftIcon className="w-4 h-4" />
+              </button>
+              <span className="text-foreground font-semibold font-mono text-sm px-1">
+                #{id || ""}
+              </span>
+              <button
+                onClick={onNextBlockClick}
+                className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ChevronRightIcon className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
+      </div>
 
-        <Divider />
+      <Divider />
 
-        <div className="flex mt-3">
-          <TabButton
-            defaultActiveKey={activeTab}
-            items={TABS}
-            onTabButtonClick={onTabButtonClick}
-          />
-        </div>
+      <TabButton
+        defaultActiveKey={activeTab}
+        items={TABS}
+        onTabButtonClick={onTabButtonClick}
+      />
 
-        <div>{getActiveTabContent()}</div>
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        {getActiveTabContent()}
       </div>
     </div>
   );

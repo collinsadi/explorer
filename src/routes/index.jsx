@@ -10,11 +10,20 @@ const VerifyContract = lazy(() => import("../pages/VerifyContract"));
 const Tokens = lazy(() => import("../pages/Tokens"));
 const NFTTokens = lazy(() => import("../pages/NFTTokens"));
 
+const LoadingFallback = ({ label = "Loading..." }) => (
+  <div className="flex items-center justify-center min-h-[40vh]">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      <span className="text-muted-foreground text-sm">{label}</span>
+    </div>
+  </div>
+);
+
 const routes = [
   {
     path: "/",
     component: (
-      <Suspense fallback={<div>Loading Home...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading dashboard..." />}>
         <Home />
       </Suspense>
     ),
@@ -22,7 +31,7 @@ const routes = [
   {
     path: "/block-list",
     component: (
-      <Suspense fallback={<div>Loading Block List...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading blocks..." />}>
         <BlockList />
       </Suspense>
     ),
@@ -30,7 +39,7 @@ const routes = [
   {
     path: "/block/:id",
     component: (
-      <Suspense fallback={<div>Loading Block...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading block..." />}>
         <Block />
       </Suspense>
     ),
@@ -38,7 +47,7 @@ const routes = [
   {
     path: "/txs",
     component: (
-      <Suspense fallback={<div>Loading Transactions...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading transactions..." />}>
         <Transactions />
       </Suspense>
     ),
@@ -46,7 +55,7 @@ const routes = [
   {
     path: "/tx/:hash",
     component: (
-      <Suspense fallback={<div>Loading Transaction...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading transaction..." />}>
         <Transaction />
       </Suspense>
     ),
@@ -54,7 +63,7 @@ const routes = [
   {
     path: "/address/:address",
     component: (
-      <Suspense fallback={<div>Loading Address...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading address..." />}>
         <AddressPage />
       </Suspense>
     ),
@@ -62,7 +71,7 @@ const routes = [
   {
     path: "/verify-contract/:address",
     component: (
-      <Suspense fallback={<div>Loading VerifyContract...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading..." />}>
         <VerifyContract />
       </Suspense>
     ),
@@ -70,7 +79,7 @@ const routes = [
   {
     path: "/tokens",
     component: (
-      <Suspense fallback={<div>Loading VerifyContract...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading tokens..." />}>
         <Tokens />
       </Suspense>
     ),
@@ -78,7 +87,7 @@ const routes = [
   {
     path: "/nfts",
     component: (
-      <Suspense fallback={<div>Loading VerifyContract...</div>}>
+      <Suspense fallback={<LoadingFallback label="Loading NFTs..." />}>
         <NFTTokens />
       </Suspense>
     ),

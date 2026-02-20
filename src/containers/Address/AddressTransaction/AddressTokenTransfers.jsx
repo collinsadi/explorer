@@ -4,20 +4,19 @@ import { getTokenTransferColumnConfig } from "../../../config";
 
 const AddressTokenTransfers = ({ transactions }) => {
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>
-          Total {transactions?.length} transactions for token transfer{" "}
-        </span>
-      </div>
+    <div className="p-5">
+      <p className="text-muted-foreground text-sm mb-4">
+        Total {transactions?.length || 0} token transfer transactions
+      </p>
 
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={[...getTokenTransferColumnConfig()]}
         dataSource={transactions}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>

@@ -1,45 +1,38 @@
 import React from "react";
-import Tooltip from "../../components/UI/Tooltip";
 import { truncateAddress } from "../../utils";
-import { BanknotesIcon } from "@heroicons/react/24/outline";
+import { CubeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 const ContractInfo = ({ creator, txHash, tokenInfo }) => {
   return (
     <div>
-      <h1 className="mt-5 font-varela font-bold text-lg mx-auto">
-        Contract info
-      </h1>
+      <h2 className="font-bold text-base text-foreground mb-4">
+        Contract Info
+      </h2>
 
-      <div>
-        <Tooltip text="The address which created the contract, and the transaction hash of the creation">
-          <span className="cursor-pointer text-gray-500">Contract creator</span>
-        </Tooltip>
-
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="truncate">
-              <Link className="text-blue-500" to={`/address/${creator}`}>
-                {truncateAddress(creator)}{" "}
-              </Link>
-              created at{" "}
-              <Link className="text-blue-500" to={`/tx/${txHash}`}>
-                {truncateAddress(txHash)}{" "}
-              </Link>
-            </div>
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            Contract Creator
+          </p>
+          <div className="text-sm">
+            <Link className="text-link hover:opacity-80" to={`/address/${creator}`}>
+              {truncateAddress(creator)}
+            </Link>
+            <span className="text-muted-foreground mx-1">at txn</span>
+            <Link className="text-link hover:opacity-80" to={`/tx/${txHash}`}>
+              {truncateAddress(txHash)}
+            </Link>
           </div>
         </div>
-      </div>
 
-      <div className="mt-4">
-        <span className="cursor-pointer text-gray-500">Token Tracker</span>
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="flex truncate items-center">
-              <BanknotesIcon className="w-4 h-4" />
-              &nbsp;
-              {`${tokenInfo?.symbol} (${tokenInfo?.name})`}
-            </div>
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            Token Tracker
+          </p>
+          <div className="flex items-center gap-1.5 text-sm text-foreground">
+            <CubeIcon className="w-4 h-4 text-muted-foreground" />
+            {`${tokenInfo?.symbol} (${tokenInfo?.name})`}
           </div>
         </div>
       </div>

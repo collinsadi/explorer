@@ -26,7 +26,7 @@ const COLUMNS = [
     key: "to",
   },
   {
-    title: "Gas limit",
+    title: "Gas Limit",
     dataIndex: "gasLimit",
     key: "gasLimit",
   },
@@ -40,30 +40,26 @@ const COLUMNS = [
 const InternalTransaction = () => {
   const dataSource = useMemo(() => {
     let data = [];
-
     for (let i = 0; i <= Math.random() * 1000; i++) {
       data.push({ ...DATA, key: i });
     }
-
     return data;
   }, []);
 
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>
-          From 0x4838...77bf73ce8b0bad5f97 To 0xe082...83a622fb5eadc92a Total 0
-          calls with ETH transfer and contract creation
-        </span>
-      </div>
+    <div className="p-5">
+      <p className="text-muted-foreground text-sm mb-4">
+        Internal transactions with ETH transfer and contract creation
+      </p>
 
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={COLUMNS}
         dataSource={dataSource}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>

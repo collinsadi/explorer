@@ -15,7 +15,7 @@ export const getTransactionColumnConfig = (skip = []) => {
       dataIndex: "hash",
       key: "hash",
       render: (hash) => (
-        <Link className="text-[#1677ff]" to={`/tx/${hash}`}>
+        <Link className="text-link font-semibold font-mono text-sm" to={`/tx/${hash}`}>
           {truncateAddress(hash, 10)}
         </Link>
       ),
@@ -25,7 +25,9 @@ export const getTransactionColumnConfig = (skip = []) => {
       dataIndex: "data",
       key: "data",
       render: (address) => (
-        <span className="font-bold">{truncateAddress(address)}</span>
+        <span className="font-mono text-sm text-muted-foreground">
+          {truncateAddress(address)}
+        </span>
       ),
     },
     {
@@ -33,7 +35,7 @@ export const getTransactionColumnConfig = (skip = []) => {
       dataIndex: "from",
       key: "from",
       render: (address) => (
-        <Link to={`/address/${address}`} className="text-blue-500">
+        <Link to={`/address/${address}`} className="text-link font-mono text-sm">
           {truncateAddress(address)}
         </Link>
       ),
@@ -44,10 +46,10 @@ export const getTransactionColumnConfig = (skip = []) => {
       key: "to",
       render: (address, data) => (
         <Link
-          to={`/address/${!!address ? address : data.creates}`}
-          className="text-blue-500"
+          to={`/address/${address || data.creates}`}
+          className="text-link font-mono text-sm"
         >
-          {!!address ? truncateAddress(address) : "Create: Contract"}
+          {address ? truncateAddress(address) : "Create: Contract"}
         </Link>
       ),
     },
@@ -56,16 +58,18 @@ export const getTransactionColumnConfig = (skip = []) => {
       dataIndex: "value",
       key: "value",
       render: (value) => (
-        <span className="font-bold">{roundUpNumber(bnToCurrency(value))}</span>
+        <span className="font-medium text-sm">
+          {roundUpNumber(bnToCurrency(value))}
+        </span>
       ),
     },
     {
-      title: "Txn fee",
+      title: "Txn Fee",
       dataIndex: "txsFee",
       key: "txsFee",
       render: (_, tx) => (
-        <span className="font-bold">
-          {roundUpNumber(getCurrencyInEth(getTxsFees(tx))) + " ETH"}
+        <span className="font-medium text-muted-foreground text-sm">
+          {roundUpNumber(getCurrencyInEth(getTxsFees(tx)))} ETH
         </span>
       ),
     },

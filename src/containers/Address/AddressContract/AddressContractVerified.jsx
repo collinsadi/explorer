@@ -9,7 +9,7 @@ import AddressContractWriteFunctionWrapper from "../AddressContractVerifiedTab/A
 const TABS = [
   { id: 1, label: "Code", value: "code" },
   { id: 2, label: "Read Functions", value: "readFunctions" },
-  { id: 3, label: "Write Functions ", value: "writeFunctions" },
+  { id: 3, label: "Write Functions", value: "writeFunctions" },
 ];
 
 const AddressContractVerified = ({ creationCode, abi, deploymentCode }) => {
@@ -41,23 +41,19 @@ const AddressContractVerified = ({ creationCode, abi, deploymentCode }) => {
   }, [activeTab, creationCode, abi, deploymentCode, address]);
 
   return (
-    <div>
-      <div className="flex mt-3">
-        <TabButton
-          defaultActiveKey={activeTab}
-          items={TABS}
-          onTabButtonClick={onTabButtonClick}
-        />
-      </div>
-      {/* <Divider /> */}
+    <div className="space-y-4">
+      <TabButton
+        defaultActiveKey={activeTab}
+        items={TABS}
+        onTabButtonClick={onTabButtonClick}
+      />
 
-      <div className="flex flex-col">
-        <div className="flex text-center items-center mx-3 my-5 text-black font-semibold">
-          <CheckBadgeIcon className="w-4 h-4 mr-2 bg-green" />
-          <span>Contract source code verified</span>
-        </div>
-        <div className="mx-3 my-3">{getActiveTabContent()}</div>
+      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+        <CheckBadgeIcon className="w-5 h-5 text-success" />
+        <span>Contract source code verified</span>
       </div>
+
+      <div>{getActiveTabContent()}</div>
     </div>
   );
 };

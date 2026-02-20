@@ -16,23 +16,29 @@ const COLUMNS = [
     dataIndex: "block",
     key: "block",
     render: (blockNumber) => (
-      <Link className="text-[#1677ff]" to={`/block/${blockNumber}`}>
+      <Link className="text-link font-semibold" to={`/block/${blockNumber}`}>
         {blockNumber}
       </Link>
     ),
   },
   {
-    title: "Date time",
+    title: "Date Time",
     dataIndex: "date",
     key: "date",
-    render: (text) => <span>{dayjs(text).format("L LT")}</span>,
+    render: (text) => (
+      <span className="text-muted-foreground text-sm">
+        {dayjs(text).format("L LT")}
+      </span>
+    ),
   },
   {
     title: "Validator",
     dataIndex: "validator",
     key: "validator",
     render: (text) => (
-      <span className="font-bold">{truncateAddress(text)}</span>
+      <span className="font-medium font-mono text-sm">
+        {truncateAddress(text)}
+      </span>
     ),
   },
   {
@@ -41,47 +47,47 @@ const COLUMNS = [
     key: "txs",
   },
   {
-    title: "Block size",
+    title: "Block Size",
     dataIndex: "blockSize",
     key: "blockSize",
   },
   {
-    title: "Gas used",
+    title: "Gas Used",
     dataIndex: "gasUsed",
     key: "gasUsed",
     render: (text) => (
-      <span className="font-bold">
-        {roundUpNumber(bnToCurrency(text)) + " Gwei"}
+      <span className="font-medium text-sm">
+        {roundUpNumber(bnToCurrency(text))} Gwei
       </span>
     ),
   },
   {
-    title: "Gas limit",
+    title: "Gas Limit",
     dataIndex: "gasLimit",
     key: "gasLimit",
     render: (text) => (
-      <span className="font-bold">
-        {roundUpNumber(bnToCurrency(text)) + " Gwei"}
+      <span className="font-medium text-sm">
+        {roundUpNumber(bnToCurrency(text))} Gwei
       </span>
     ),
   },
   {
-    title: "Avg. Gas price",
+    title: "Avg. Gas Price",
     dataIndex: "gasPrice",
     key: "gasPrice",
     render: (text) => (
-      <span className="font-bold">
-        {roundUpNumber(bnToCurrency(text)) + " Gwei"}
+      <span className="font-medium text-sm">
+        {roundUpNumber(bnToCurrency(text))} Gwei
       </span>
     ),
   },
   {
-    title: "Block rewards",
+    title: "Block Rewards",
     dataIndex: "blockRewards",
     key: "blockRewards",
     render: (text) => (
-      <span className="font-bold">
-        {roundUpNumber(bnToCurrency(text)) + " Gwei"}
+      <span className="font-medium text-sm">
+        {roundUpNumber(bnToCurrency(text))} Gwei
       </span>
     ),
   },
@@ -119,23 +125,28 @@ const Blocks = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="ml-2 font-varela font-bold text-xl mx-auto">
-        Block list (after Merge)
-      </h1>
-      <div className="mt-10 p-2">
-        <h4>Total {totalBlocks} blocks </h4>
+    <div className="space-y-6 animate-fade-in">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">Blocks</h1>
+        <p className="text-muted-foreground text-sm mt-1">
+          Total {totalBlocks} blocks
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
         <Table
-          size="large"
-          className={`mt-4 overflow-x-scroll ${loading && "animate-pulse"} `}
+          size="middle"
+          className={`${loading ? "animate-pulse" : ""}`}
           columns={COLUMNS}
           dataSource={dataSource}
           onChange={onTableChange}
+          scroll={{ x: true }}
           pagination={{
-            position: "bottom-right",
+            position: ["bottomRight"],
             current: pageNumber,
             pageSize: 10,
             total: totalBlocks,
+            showSizeChanger: false,
           }}
         />
       </div>

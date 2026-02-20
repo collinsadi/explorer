@@ -25,17 +25,18 @@ const TRANSACTION_TYPE_MAPPER = {
 
 const Badge = ({ status }) => {
   return (
-    <div
-      class={`text-xs inline-flex items-center leading-sm px-1 py-0.5 rounded border ${
-        !!status
-          ? "bg-badge-success bg-green-200 text-[#00a186]"
-          : "bg-badge-failed bg-red-200 text-[#b91c1c]"
+    <span
+      className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold ${
+        status
+          ? "bg-success-light text-success-dark"
+          : "bg-danger-light text-danger-dark"
       }`}
     >
-      {!!status ? "Success" : "Failed"}
-    </div>
+      {status ? "Success" : "Failed"}
+    </span>
   );
 };
+
 const BlockTransaction = ({ transaction }) => {
   const txOverview = useMemo(() => {
     if (!Object.keys(transaction).length) {
@@ -46,7 +47,6 @@ const BlockTransaction = ({ transaction }) => {
       {
         id: "status",
         label: "Status",
-        // value: `${transaction.status ? "Success" : "Failed"}`,
         value: <Badge status={transaction.status} />,
         type: "string",
       },
@@ -75,25 +75,20 @@ const BlockTransaction = ({ transaction }) => {
         link: `/address/${transaction.from}`,
       },
       {
-        label: "From ENS",
-        value: "ENS NAME 🔥",
-        type: "string",
-      },
-      {
         label: "Method",
-        value: !!transaction.methodName
+        value: transaction.methodName
           ? humanizeString(transaction.methodName)
           : truncateAddress(transaction.data),
         type: "string",
       },
       {
         label: "To Address",
-        value: !!transaction.to ? transaction.to : transaction.creates,
+        value: transaction.to ? transaction.to : transaction.creates,
         type: "string",
         info: "The receiver of this transaction",
         showCopy: true,
         link: `/address/${
-          !!transaction.to ? transaction.to : transaction.creates
+          transaction.to ? transaction.to : transaction.creates
         }`,
       },
     ];
@@ -105,14 +100,12 @@ const BlockTransaction = ({ transaction }) => {
         value: `${bnToCurrency(transaction.value)} ETH`,
         type: "number",
       },
-
       {
         id: "rewardData",
         label: "Transaction Fee",
         value: `${getCurrencyInEth(transaction.rewardData)} ETH`,
         type: "number",
       },
-
       {
         id: "gasPrice",
         label: "Gas Price",
@@ -130,7 +123,7 @@ const BlockTransaction = ({ transaction }) => {
         id: "cumulativeGasUsed",
         label: "Gas Usage",
         type: "number",
-        value: `  ${transaction.cumulativeGasUsed?.toString()} | (${(
+        value: `${transaction.cumulativeGasUsed?.toString()} | (${(
           (transaction.cumulativeGasUsed / transaction.gasLimit) *
           100
         ).toFixed(2)}%)`,
@@ -140,10 +133,10 @@ const BlockTransaction = ({ transaction }) => {
     let metadata = [
       {
         id: "type",
-        label: "Other attributes:",
+        label: "Other attributes",
         value: `${transaction.type} (${
           TRANSACTION_TYPE_MAPPER[transaction.type]
-        })   -   Nonce: ${transaction?.block?.nonce}   -   Position in Block: ${
+        })  ·  Nonce: ${transaction?.block?.nonce}  ·  Position in Block: ${
           transaction?.block?.number
         }`,
         type: "string",
@@ -158,34 +151,34 @@ const BlockTransaction = ({ transaction }) => {
     ];
     return { overview, txs, gasData, metadata };
   }, [transaction]);
+
   return (
-    <div className="mt-4 p-4">
+    <div className="p-5">
       <Fragment>
         {txOverview.overview?.map((data) => {
-          return <ListItem {...data} />;
+          return <ListItem key={data.id || data.label} {...data} />;
         })}
-        <Divider className="mb-4" />
+        <Divider />
       </Fragment>
 
       <Fragment>
         {txOverview.txs?.map((data) => {
-          return <ListItem {...data} />;
+          return <ListItem key={data.id || data.label} {...data} />;
         })}
-        <Divider className="mb-4" />
+        <Divider />
       </Fragment>
 
       <Fragment>
         {txOverview.gasData?.map((data) => {
-          return <ListItem {...data} />;
+          return <ListItem key={data.id || data.label} {...data} />;
         })}
-        <Divider className="mb-4" />
+        <Divider />
       </Fragment>
 
       <Fragment>
         {txOverview.metadata?.map((data) => {
-          return <ListItem {...data} />;
+          return <ListItem key={data.id || data.label} {...data} />;
         })}
-        <Divider className="mb-4" />
       </Fragment>
     </div>
   );

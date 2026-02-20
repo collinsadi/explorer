@@ -1,31 +1,23 @@
 import React from "react";
-import Tooltip from "../../components/UI/Tooltip";
 
 const TransactionInfo = ({ ethBalance, usdBalance }) => {
   return (
     <div>
-      <h1 className="mt-5 font-varela font-bold text-lg mx-auto">More info</h1>
+      <h2 className="font-bold text-base text-foreground mb-4">More Info</h2>
 
-      <div>
-        <Tooltip text="The total value and allocation of assets held by this address across different networks, including native tokens, fungible tokens, and DeFi-related products. Updated every hour.">
-          <span className="cursor-pointer text-gray-500">
-            Multi-chain asset allocation
-          </span>
-        </Tooltip>
-
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="truncate">N/A</div>
-          </div>
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            Multi-chain Allocation
+          </p>
+          <p className="text-foreground text-sm">N/A</p>
         </div>
-      </div>
 
-      <div className="mt-4">
-        <span className="cursor-pointer text-gray-500">ETH holdings</span>
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="truncate">{ethBalance} ETH</div>
-          </div>
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            ETH Holdings
+          </p>
+          <p className="text-foreground font-semibold">{ethBalance} ETH</p>
         </div>
       </div>
     </div>

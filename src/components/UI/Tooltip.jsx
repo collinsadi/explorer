@@ -5,13 +5,13 @@ const Tooltip = ({ text, children }) => {
 
   return (
     <div
-      className="relative flex items-center"
+      className="relative inline-flex items-center"
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
       {children}
       {showTooltip && (
-        <div className="absolute bottom-full mb-2 w-max bg-gray-800 text-white text-xs rounded py-1 px-2 shadow-lg">
+        <div className="absolute bottom-full mb-2 left-0 w-max max-w-xs bg-card text-card-foreground text-xs rounded-lg py-2 px-3 shadow-elevated border border-border z-50 animate-fade-in">
           {text}
         </div>
       )}

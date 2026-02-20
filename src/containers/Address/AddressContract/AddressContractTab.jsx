@@ -1,5 +1,4 @@
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import { ArrowRightIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import CodeBlock from "../../../components/UI/CodeBlock";
 import { truncateAddress } from "../../../utils";
@@ -20,7 +19,7 @@ const CONTRACT_NAVIGATIONS = [
     icon: <ArrowRightIcon className="w-3 h-3 ml-1.5" />,
   },
   {
-    id: 1,
+    id: 3,
     label: "Verify with API",
     to: "/verify-with-api",
     isActive: false,
@@ -42,49 +41,45 @@ const AddressContractTab = ({
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="">
-        <div className="flex text-center items-center my-2 text-black font-semibold">
-          <InformationCircleIcon className="w-4 h-4 mr-2" />
-          <span>Contract source code unverified</span>
-        </div>
-        <div className="my-2 text-sm">
-          This contract was created by&nbsp;
-          {truncateAddress(contractCreator)} on&nbsp;
-          {contractTxHash}
-        </div>
-      </div>
-
-      <div className="flex">
-        {CONTRACT_NAVIGATIONS.map(({ label, id, isActive, icon, to }) => {
-          return (
-            <div>
-              <button
-                key={id}
-                className={`flex justify-center items-center max-w-fit mx-1 my-4 p-2 rounded-md  ${
-                  isActive
-                    ? "bg-black text-white "
-                    : "bg-white text-black hover:bg-gray-800 hover:text-white"
-                }`}
-                onClick={() => onRedirectClick(to)}
-              >
-                {label} {!!icon && icon}
-              </button>
-            </div>
-          );
-        })}
-      </div>
-
+    <div className="flex flex-col gap-4">
       <div>
-        <CodeBlock
-          label="Contract deployment bytecode"
-          content={deploymentCode}
-        />
+        <div className="flex items-center gap-2 text-foreground font-semibold text-sm">
+          <InformationCircleIcon className="w-4 h-4 text-danger" />
+          <span>Contract source code not verified</span>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Created by {truncateAddress(contractCreator)} at{" "}
+          <span className="font-mono">{truncateAddress(contractTxHash)}</span>
+        </p>
       </div>
 
-      <div className="mt-6">
-        <CodeBlock label="Contract creation bytecode" content={creationCode} />
+      <div className="flex flex-wrap gap-2">
+        {CONTRACT_NAVIGATIONS.map(({ label, id, isActive, icon, to }) => (
+          <button
+            key={id}
+            className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              isActive
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-foreground hover:bg-accent border border-border"
+            }`}
+            onClick={() => onRedirectClick(to)}
+          >
+            {label} {icon}
+          </button>
+        ))}
       </div>
+
+      <CodeBlock
+        label="Contract deployment bytecode"
+        content={deploymentCode}
+        showCopy
+      />
+
+      <CodeBlock
+        label="Contract creation bytecode"
+        content={creationCode}
+        showCopy
+      />
     </div>
   );
 };

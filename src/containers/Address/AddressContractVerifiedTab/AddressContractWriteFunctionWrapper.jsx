@@ -18,7 +18,6 @@ const AddressContractWriteFunctionWrapper = ({ address, abi }) => {
       setWalletAddress(wallet);
     } catch (error) {
       console.error("User is not connected or MetaMask is locked:", error);
-      // Clear any existing wallet connection if MetaMask is locked
       setSigner(null);
       setWalletAddress(null);
     }
@@ -27,14 +26,12 @@ const AddressContractWriteFunctionWrapper = ({ address, abi }) => {
   const connectToWeb3 = async () => {
     if (window.ethereum) {
       try {
-        // Request account access
         await window.ethereum.request({ method: "eth_requestAccounts" });
 
-        // Check if we're on the Hardhat network
         const currentChainId = await window.ethereum.request({
           method: "eth_chainId",
         });
-        const hardhatChainId = "0x539"; // 1337 in hexadecimal
+        const hardhatChainId = "0x539";
 
         if (currentChainId !== hardhatChainId) {
           alert("Only Hardhat network is supported for now.");
@@ -51,7 +48,6 @@ const AddressContractWriteFunctionWrapper = ({ address, abi }) => {
   };
 
   useEffect(() => {
-    // Try to connect only if an account is already connected
     const checkExistingConnection = async () => {
       if (window.ethereum) {
         const accounts = await window.ethereum.request({
@@ -65,14 +61,11 @@ const AddressContractWriteFunctionWrapper = ({ address, abi }) => {
 
     checkExistingConnection();
 
-    // Listen for account changes to detect MetaMask lock/unlock
     const handleAccountsChanged = (accounts) => {
       if (accounts.length === 0) {
-        // MetaMask is locked or no account connected
         setSigner(null);
         setWalletAddress(null);
       } else {
-        // Update signer and wallet address if accounts change
         connectToWallet();
       }
     };
@@ -80,22 +73,28 @@ const AddressContractWriteFunctionWrapper = ({ address, abi }) => {
     window.ethereum?.on("accountsChanged", handleAccountsChanged);
 
     return () => {
-      // Clean up event listener on component unmount
       window.ethereum?.removeListener("accountsChanged", handleAccountsChanged);
     };
   }, []);
 
   const navigateToAddress = () => navigate(`/address/${walletAddress}`);
 
-  //   @Todo: Create wallet selection for hardhat
   return (
-    <div className="flex flex-col">
+    <div className="space-y-4">
       <div>
         {!signer && !walletAddress ? (
-          <button onClick={connectToWeb3}>Connect to Web3</button>
+          <button
+            onClick={connectToWeb3}
+            className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+          >
+            Connect to Web3
+          </button>
         ) : (
-          <button onClick={navigateToAddress}>
-            [Connect Web3 ({truncateAddress(walletAddress)})]
+          <button
+            onClick={navigateToAddress}
+            className="px-4 py-2 rounded-lg bg-muted text-foreground text-sm font-medium border border-border hover:bg-accent transition-colors"
+          >
+            Connected: {truncateAddress(walletAddress)}
           </button>
         )}
       </div>

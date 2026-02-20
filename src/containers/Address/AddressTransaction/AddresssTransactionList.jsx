@@ -14,22 +14,20 @@ const COLUMNS = [
 
 const AddresssTransactionList = ({ transactions }) => {
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>
-          Total {transactions?.length} calls with ETH transfer and contract
-          creation
-        </span>
-        <span>Hide zero-amount txns</span>
-      </div>
+    <div className="p-5">
+      <p className="text-muted-foreground text-sm mb-4">
+        Total {transactions?.length || 0} transactions with ETH transfer and
+        contract creation
+      </p>
 
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={COLUMNS}
         dataSource={transactions}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>

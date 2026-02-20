@@ -23,7 +23,7 @@ const COLUMNS = [
     dataIndex: "hash",
     key: "hash",
     render: (hash) => (
-      <Link className="text-blue-500" to={`/tx/${hash}`}>
+      <Link className="text-link font-semibold font-mono text-sm" to={`/tx/${hash}`}>
         {truncateAddress(hash, 10)}
       </Link>
     ),
@@ -33,8 +33,14 @@ const COLUMNS = [
     dataIndex: "methodName",
     key: "methodName",
     render: (methodName, tx) => (
-      <span className={!!methodName && "font-bold"}>
-        {!!methodName ? humanizeString(methodName) : truncateAddress(tx.data)}
+      <span
+        className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${
+          methodName
+            ? "bg-muted text-foreground"
+            : "bg-muted text-muted-foreground"
+        }`}
+      >
+        {methodName ? humanizeString(methodName) : truncateAddress(tx.data)}
       </span>
     ),
   },
@@ -43,7 +49,7 @@ const COLUMNS = [
     dataIndex: "from",
     key: "from",
     render: (address) => (
-      <Link to={`/address/${address}`} className="text-blue-500">
+      <Link to={`/address/${address}`} className="text-link text-sm font-mono">
         {truncateAddress(address)}
       </Link>
     ),
@@ -54,10 +60,10 @@ const COLUMNS = [
     key: "to",
     render: (address, data) => (
       <Link
-        to={`/address/${!!address ? address : data.creates}`}
-        className="text-blue-500"
+        to={`/address/${address || data.creates}`}
+        className="text-link text-sm font-mono"
       >
-        {!!address ? truncateAddress(address) : "Create: Contract"}
+        {address ? truncateAddress(address) : "Create: Contract"}
       </Link>
     ),
   },
@@ -66,16 +72,18 @@ const COLUMNS = [
     dataIndex: "value",
     key: "value",
     render: (value) => (
-      <span className="font-bold">{roundUpNumber(bnToCurrency(value))}</span>
+      <span className="font-medium text-sm">
+        {roundUpNumber(bnToCurrency(value))}
+      </span>
     ),
   },
   {
-    title: "Txn fee",
+    title: "Txn Fee",
     dataIndex: "txsFee",
     key: "txsFee",
     render: (_, tx) => (
-      <span className="font-bold">
-        {roundUpNumber(getCurrencyInEth(getTxsFees(tx))) + " ETH"}
+      <span className="font-medium text-muted-foreground text-sm">
+        {roundUpNumber(getCurrencyInEth(getTxsFees(tx)))} ETH
       </span>
     ),
   },
@@ -124,23 +132,27 @@ const Transactions = () => {
   }, [transactions]);
 
   return (
-    <div className="p-6">
-      <h1 className="ml-2 font-varela font-bold text-xl mx-auto">
-        Latest Transactions
-      </h1>
-      <div className="mt-10 p-2">
-        <h4>Total {totalTx} transactions</h4>
+    <div className="space-y-6 animate-fade-in">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">Transactions</h1>
+        <p className="text-muted-foreground text-sm mt-1">
+          Total {totalTx} transactions
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
         <Table
-          size="large"
-          className="mt-4 overflow-x-scroll"
+          size="middle"
           columns={COLUMNS}
           dataSource={txs || []}
           onChange={onTableChange}
+          scroll={{ x: true }}
           pagination={{
-            position: "bottom-right",
+            position: ["bottomRight"],
             current: pageNumber,
             pageSize: 10,
             total: totalTx,
+            showSizeChanger: false,
           }}
         />
       </div>

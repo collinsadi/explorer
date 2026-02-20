@@ -9,16 +9,16 @@ const NoNetworkModal = ({ open, onOkayClick, error }) => {
       closable={false}
       open={open}
       okText="Retry"
-      style={{ border: "1px solid black", borderRadius: "8px" }}
       onOk={onOkayClick}
     >
-      <p>
-        Please make sure your hardhat node is running, try <code>npx hardhat node</code>
+      <p className="text-[var(--color-card-fg)]">
+        Please make sure your Hardhat node is running:
       </p>
+      <code className="block mt-2 p-3 rounded-lg bg-[var(--color-code-bg)] border border-[var(--color-code-border)] text-sm font-mono text-[var(--color-fg)]">
+        npx hardhat node
+      </code>
       {error && (
-        <p className="mt-2 text-red-600 text-sm">
-          {error}
-        </p>
+        <p className="mt-3 text-danger text-sm">{error}</p>
       )}
     </Modal>
   );

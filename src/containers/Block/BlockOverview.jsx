@@ -39,14 +39,12 @@ const BlockTransaction = ({ block }) => {
         value: dayjs(block.timestamp * 1000).format("LLL"),
         type: "datetime",
       },
-
       {
         id: "timestampAgo",
         label: "Time Ago",
         value: dayjs(block.timestamp * 1000).fromNow(),
         type: "string",
       },
-
       {
         id: "transactions",
         label: "Transactions",
@@ -59,7 +57,7 @@ const BlockTransaction = ({ block }) => {
       {
         id: "miner",
         label: "Miner",
-        value: block.miner, // @Todo - Get ENS
+        value: block.miner,
         type: "string",
         showCopy: true,
         link: true,
@@ -71,7 +69,6 @@ const BlockTransaction = ({ block }) => {
         type: "string",
         info: "Total rewards gained by generating blocks and packaging transactions",
       },
-
       {
         id: "difficulty",
         label: "Difficulty",
@@ -129,7 +126,6 @@ const BlockTransaction = ({ block }) => {
         type: "string",
         showCopy: true,
       },
-
       {
         id: "parentHash",
         label: "Parent block hash",
@@ -141,7 +137,6 @@ const BlockTransaction = ({ block }) => {
         id: "stateRoot",
         label: "State root",
         value: block.stateRoot || "N/A",
-
         type: "string",
       },
       {
@@ -155,25 +150,25 @@ const BlockTransaction = ({ block }) => {
   }, [block]);
 
   return (
-    <div className="mt-4 p-4">
+    <div className="p-5">
       <Fragment>
         {blockOverview?.overview?.map((data) => {
           return <ListItem key={data.id} {...data} />;
         })}
       </Fragment>
-      <Divider className="mb-4" />
+      <Divider />
       <Fragment>
         {blockOverview?.txs?.map((data) => {
           return <ListItem key={data.id} {...data} />;
         })}
       </Fragment>
-      <Divider className="mb-4" />
+      <Divider />
       <Fragment>
         {blockOverview?.gasData?.map((data) => {
           return <ListItem key={data.id} {...data} />;
         })}
       </Fragment>
-      <Divider className="mb-4" />
+      <Divider />
       <Fragment>
         {blockOverview?.metadata?.map((data) => {
           return <ListItem key={data.id} {...data} />;

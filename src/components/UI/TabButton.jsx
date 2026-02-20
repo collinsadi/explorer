@@ -18,33 +18,22 @@ const TabButton = ({
   };
 
   return (
-    <div className="flex flex-wrap my-2">
+    <div className="flex flex-wrap gap-2 my-2 p-1 bg-muted rounded-lg">
       {items.map(({ label, value, icon, ...rest }) => (
-        <Fragment>
+        <Fragment key={value}>
           <button
             {...rest}
             onClick={() => onButtonClick(value)}
-            className="relative"
+            className={`relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-150 ${
+              value === selectedKey
+                ? "bg-card text-foreground shadow-soft"
+                : "text-muted-foreground hover:text-foreground"
+            } ${rest.disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"} ${className}`}
           >
-            {!!icon && (
-              <span
-                className={`absolute top-[-17px] ${
-                  value === selectedKey ? "left-[82px]" : "left-[85px]"
-                }`}
-              >
-                {icon}
-              </span>
+            {icon && (
+              <span className="mr-1.5 inline-flex">{icon}</span>
             )}
-            <span
-              className={`mx-3 p-1.5 rounded hover:bg-black-800 ${
-                value === selectedKey
-                  ? "text-white bg-black "
-                  : " bg-[#f7f7f7] hover:bg-black-800 text-black border"
-              } ${!!rest.disabled && "cursor-not-allowed"} ${className}`}
-            >
-              {" "}
-              {label}
-            </span>
+            {label}
           </button>
         </Fragment>
       ))}

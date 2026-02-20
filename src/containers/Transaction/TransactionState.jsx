@@ -16,7 +16,7 @@ const COLUMNS = [
     dataIndex: "address",
     key: "address",
     render: (address) => (
-      <Link className="text-[#1677ff]" to={`/address/${address}`}>
+      <Link className="text-link font-mono text-sm" to={`/address/${address}`}>
         {address}
       </Link>
     ),
@@ -41,30 +41,27 @@ const COLUMNS = [
 const InternalTransaction = () => {
   const dataSource = useMemo(() => {
     let data = [];
-
     for (let i = 0; i <= Math.random() * 1000; i++) {
       data.push({ ...DATA, key: i });
     }
-
     return data;
   }, []);
 
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>
-          The information below shows the changes to the current state of the
-          respective addresses when this transaction is processed on the network
-        </span>
-      </div>
+    <div className="p-5">
+      <p className="text-muted-foreground text-sm mb-4">
+        The information below shows the changes to the current state of the
+        respective addresses when this transaction is processed on the network
+      </p>
 
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={COLUMNS}
         dataSource={dataSource}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>

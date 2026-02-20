@@ -1,49 +1,41 @@
 import React from "react";
-import Tooltip from "../../components/UI/Tooltip";
 import { truncateAddress } from "../../utils";
 
 const MoreInfo = ({ totalTxs, latestTx, firstTx }) => {
   return (
     <div>
-      <h1 className="mt-5 font-varela font-bold text-lg mx-auto">Txn info</h1>
+      <h2 className="font-bold text-base text-foreground mb-4">
+        Transaction Info
+      </h2>
 
-      <div>
-        <Tooltip text="The total transactions initiated by this address and the sum of transaction fees. Only “Transactions”, token transfers, and NFT transfers are counted.">
-          <span className="cursor-pointer text-gray-500">
-            Total txns initiated
-          </span>
-        </Tooltip>
-
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="truncate">{totalTxs} Txs</div>
-          </div>
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            Total Txns Initiated
+          </p>
+          <p className="text-foreground font-semibold">{totalTxs} Txs</p>
         </div>
-      </div>
 
-      <div className="mt-4">
-        <span className="cursor-pointer text-gray-500">Latest txn sent</span>
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="truncate">
-              {!!latestTx
-                ? truncateAddress(latestTx?.hash, 10)
-                : "NO TRANSACTIONS RECORDED"}
-            </div>
-          </div>
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            Latest Txn Sent
+          </p>
+          <p className="text-foreground text-sm font-mono">
+            {latestTx
+              ? truncateAddress(latestTx?.hash, 10)
+              : "No transactions recorded"}
+          </p>
         </div>
-      </div>
 
-      <div className="mt-4">
-        <span className="cursor-pointer text-gray-500">First txn sent</span>
-        <div className="col-span-5 sm:col-span-4">
-          <div className="flex items-center space-x-2">
-            <div className="truncate">
-              {!!firstTx
-                ? truncateAddress(firstTx?.hash, 10)
-                : "NO TRANSACTIONS RECORDED"}
-            </div>
-          </div>
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            First Txn Sent
+          </p>
+          <p className="text-foreground text-sm font-mono">
+            {firstTx
+              ? truncateAddress(firstTx?.hash, 10)
+              : "No transactions recorded"}
+          </p>
         </div>
       </div>
     </div>

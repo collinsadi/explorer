@@ -15,7 +15,7 @@ const COLUMNS = [
     dataIndex: "hash",
     key: "hash",
     render: (hash) => (
-      <Link className="text-[#1677ff]" to={`/tx/${hash}`}>
+      <Link className="text-link font-semibold font-mono text-sm" to={`/tx/${hash}`}>
         {truncateAddress(hash, 10)}
       </Link>
     ),
@@ -24,14 +24,18 @@ const COLUMNS = [
     title: "Method",
     dataIndex: "data",
     key: "data",
-    render: (data) => <span>{truncateAddress(data)}</span>,
+    render: (data) => (
+      <span className="text-sm font-mono text-muted-foreground">
+        {truncateAddress(data)}
+      </span>
+    ),
   },
   {
     title: "From",
     dataIndex: "from",
     key: "from",
     render: (address) => (
-      <Link to={`/address/${address}`} className="text-blue-500">
+      <Link to={`/address/${address}`} className="text-link font-mono text-sm">
         {truncateAddress(address)}
       </Link>
     ),
@@ -41,7 +45,7 @@ const COLUMNS = [
     dataIndex: "to",
     key: "to",
     render: (address) => (
-      <Link to={`/address/${address}`} className="text-blue-500">
+      <Link to={`/address/${address}`} className="text-link font-mono text-sm">
         {truncateAddress(address)}
       </Link>
     ),
@@ -51,16 +55,16 @@ const COLUMNS = [
     dataIndex: "value",
     key: "value",
     render: (value) => (
-      <span className="font-bold">{roundUpNumber(bnToCurrency(value))}</span>
+      <span className="font-medium text-sm">{roundUpNumber(bnToCurrency(value))}</span>
     ),
   },
   {
-    title: "Txn fee",
+    title: "Txn Fee",
     dataIndex: "txsFee",
     key: "txsFee",
     render: (_, tx) => (
-      <span className="font-bold">
-        {roundUpNumber(getCurrencyInEth(getTxsFees(tx))) + " ETH"}
+      <span className="font-medium text-muted-foreground text-sm">
+        {roundUpNumber(getCurrencyInEth(getTxsFees(tx)))} ETH
       </span>
     ),
   },
@@ -68,19 +72,21 @@ const COLUMNS = [
 
 const BlockTransaction = ({ block }) => {
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>Total {block.transactions?.length || 0} records</span>
-        <span>Hide zero-amount txns</span>
+    <div className="p-5">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-muted-foreground text-sm">
+          Total {block.transactions?.length || 0} transactions
+        </span>
       </div>
 
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={COLUMNS}
         dataSource={block?.transactions || []}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>

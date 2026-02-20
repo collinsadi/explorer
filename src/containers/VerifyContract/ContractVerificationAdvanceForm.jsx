@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Button from "../../components/UI/Button";
 
+const inputClasses =
+  "w-full px-3 py-2.5 rounded-lg bg-[var(--color-input-bg)] border border-[var(--color-input-border)] text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all";
+const labelClasses = "block text-sm font-medium text-foreground mb-1.5";
+
 const ContractVerificationAdvancedForm = ({
   contractDetails,
   onBackClick,
@@ -15,7 +19,6 @@ const ContractVerificationAdvancedForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     onSubmitClick({
       sourceCode: sourceCode.trim(),
       optimization,
@@ -27,107 +30,84 @@ const ContractVerificationAdvancedForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-[70%] mx-auto p-4 bg-white shadow-md rounded-md text-left"
-    >
-      {/* Upload Contract Source Code Section */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <h3 className="text-base font-semibold text-foreground mb-2">
           Upload Contract Source Code
-        </h2>
-        <p className="text-sm text-gray-600 mb-2">
-          1. If it compiles correctly at REMIX, it should also compile correctly
-          here.
-          <br />
-          2. This is an experimental module; Only flatten files supported.
+        </h3>
+        <p className="text-sm text-muted-foreground mb-3">
+          If it compiles correctly at REMIX, it should also compile correctly
+          here. Only flattened files are supported.
         </p>
-        <label className="block text-sm font-medium mb-1">
-          Paste Solidity (.sol) code:
-        </label>
+        <label className={labelClasses}>Paste Solidity (.sol) code:</label>
         <textarea
           required
           value={sourceCode}
           onChange={(e) => setSourceCode(e.target.value)}
-          placeholder="Paste your Solidity code here..."
-          className="w-full h-32 mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-4"
+          placeholder="// SPDX-License-Identifier: MIT&#10;pragma solidity ^0.8.0;&#10;..."
+          className={`${inputClasses} h-36 font-mono resize-y`}
         />
-        <div className="text-sm text-gray-500 text-center">
-          <p>
-            <strong>Contract Address:</strong>{" "}
+        <div className="mt-3 flex flex-wrap gap-4 text-xs text-muted-foreground">
+          <span>
+            <strong className="text-foreground">Address:</strong>{" "}
             {contractDetails?.contractAddress}
-          </p>
-          <p>
-            <strong>Compiler Type:</strong>{" "}
+          </span>
+          <span>
+            <strong className="text-foreground">Compiler:</strong>{" "}
             {contractDetails?.compilerType || "-"}
-          </p>
-          <p>
-            <strong>Compiler Version:</strong>{" "}
+          </span>
+          <span>
+            <strong className="text-foreground">Version:</strong>{" "}
             {contractDetails?.compilerVersion || "-"}
-          </p>
+          </span>
         </div>
       </div>
 
-      {/* Advanced Configuration Section */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Advanced Configuration</h2>
-
-        <div className="grid  grid-cols-2 gap-4">
-          <div className="">
-            {/* Optimization */}
-            <label className="block text-sm font-medium mb-1">
-              Optimization
-            </label>
+      <div>
+        <h3 className="text-base font-semibold text-foreground mb-3">
+          Advanced Configuration
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className={labelClasses}>Optimization</label>
             <select
               value={optimization}
               onChange={(e) => setOptimization(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:border-blue-500"
+              className={inputClasses}
             >
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
           </div>
-
           <div>
-            {/* Runs */}
-            <label className="block text-sm font-medium mb-1">
-              Runs (Optimizer)
-            </label>
+            <label className={labelClasses}>Runs (Optimizer)</label>
             <input
               type="number"
               value={runs}
               onChange={(e) => setRuns(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:border-blue-500"
+              className={inputClasses}
               placeholder="200"
             />
           </div>
-
           <div>
-            {/* EVM Version */}
-            <label className="block text-sm font-medium mb-1">
-              EVM Version to target
-            </label>
+            <label className={labelClasses}>EVM Version</label>
             <select
               value={evmVersion}
               onChange={(e) => setEvmVersion(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:border-blue-500"
+              className={inputClasses}
             >
-              <option value="default">default (compiler defaults)</option>
+              <option value="default">Default (compiler defaults)</option>
               <option value="istanbul">Istanbul</option>
               <option value="berlin">Berlin</option>
               <option value="london">London</option>
             </select>
           </div>
-
           <div>
-            {/* License Type */}
-            <label className="block text-sm font-medium mb-1">
-              License Type
-            </label>
+            <label className={labelClasses}>License Type</label>
             <select
               value={licenseType}
               onChange={(e) => setLicenseType(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:border-blue-500"
+              className={inputClasses}
             >
               <option value="Apache 2.0">Apache 2.0</option>
               <option value="MIT">MIT</option>
@@ -137,22 +117,21 @@ const ContractVerificationAdvancedForm = ({
         </div>
       </div>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">
-          Constructor Arguments ABI-encoded
-        </h2>
+      <div>
+        <h3 className="text-base font-semibold text-foreground mb-2">
+          Constructor Arguments (ABI-encoded)
+        </h3>
         <textarea
-          // required
           value={constructorArgs}
           onChange={(e) => setConstructorArgs(e.target.value)}
-          placeholder="Enter ABI-encoded constructor arguments here..."
-          className="w-full h-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-4"
+          placeholder="Enter ABI-encoded constructor arguments..."
+          className={`${inputClasses} h-24 font-mono resize-y`}
         />
       </div>
 
-      <div className="px-2 mt-4 mb-0 flex max-w-md m-auto">
-        <Button label="Back" onClick={onBackClick} />
-        <Button label="Submit" />
+      <div className="flex gap-3 max-w-md mx-auto pt-2">
+        <Button label="Back" variant="secondary" onClick={onBackClick} />
+        <Button label="Verify & Publish" type="submit" />
       </div>
     </form>
   );

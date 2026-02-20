@@ -3,7 +3,6 @@ import {
   DocumentIcon,
 } from "@heroicons/react/24/outline";
 import React, { useCallback, useMemo, useState } from "react";
-// @Todo: Replace with custom tailwind
 import { Collapse } from "antd";
 import useContractFunctions from "../../../hooks/useContractFunctions";
 
@@ -54,7 +53,7 @@ const AddressContractVerifiedReadFunction = ({ address, abi }) => {
       label: `${idx + 1}. ${data.name}`,
       extra: (
         <ClipboardDocumentIcon
-          className="h-5 w-5"
+          className="h-4 w-4 text-muted-foreground"
           onClick={(event) => {
             event.stopPropagation();
           }}
@@ -68,36 +67,33 @@ const AddressContractVerifiedReadFunction = ({ address, abi }) => {
                 <input
                   key={i}
                   placeholder={input.name || `Input ${i + 1}`}
-                  className="p-1 border border-gray-200 focus:border-gray-500 rounded-md"
+                  className="px-3 py-2 rounded-lg bg-[var(--color-input-bg)] border border-[var(--color-input-border)] text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                   onChange={(e) => handleInputChange(idx, i, e.target.value)}
                 />
               ))}
-
-              <div className="w-[100px]">
-                <button
-                  onClick={() => handleReadFunction(idx)}
-                  className="my-2 px-4 py-0.5 bg-black text-white rounded-md"
-                >
-                  Execute
-                </button>
-              </div>
+              <button
+                onClick={() => handleReadFunction(idx)}
+                className="mt-1 w-fit px-4 py-1.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                Query
+              </button>
             </div>
           )}
 
           {results[idx] !== undefined && (
-            <div>
+            <div className="mt-3 p-3 rounded-lg bg-[var(--color-code-bg)] border border-[var(--color-code-border)] text-sm font-mono">
               {readFunctions[idx].outputs &&
               readFunctions[idx].outputs.length > 0 ? (
                 readFunctions[idx].outputs.map((output, outputIdx) => (
-                  <p key={outputIdx}>
-                    {output.type}:{" "}
+                  <p key={outputIdx} className="text-foreground">
+                    <span className="text-muted-foreground">{output.type}:</span>{" "}
                     {Array.isArray(results[idx])
                       ? results[idx][outputIdx]?.toString()
                       : results[idx]?.toString()}
                   </p>
                 ))
               ) : (
-                <p>No output</p>
+                <p className="text-muted-foreground">No output</p>
               )}
             </div>
           )}
@@ -107,25 +103,20 @@ const AddressContractVerifiedReadFunction = ({ address, abi }) => {
   }, [readFunctions, results, inputValues]);
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center mb-4">
-        <DocumentIcon className="w-4 h-4 mr-2" />
-        Supports reading the following contract function information
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <DocumentIcon className="w-4 h-4" />
+        Read contract functions
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
+      <div className="space-y-3">
         {tabContent.map((item) => (
-          <div key={item.key} className="rounded-md shadow-md">
+          <div key={item.key} className="rounded-lg border border-border overflow-hidden">
             <Collapse
               accordion
               expandIconPosition="end"
               onChange={() => handleReadFunction(item.key)}
-              items={[
-                {
-                  ...item,
-                  collapsible: "header",
-                },
-              ]}
+              items={[{ ...item, collapsible: "header" }]}
             />
           </div>
         ))}

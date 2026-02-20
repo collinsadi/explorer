@@ -11,7 +11,7 @@ const TABS = [
   { id: 4, label: "NFT Transfers", value: "nftTransfer" },
   { id: 3, label: "Internal Txs", value: "internalTxs", disabled: true },
   { id: 5, label: "Assets", value: "assets", disabled: true },
-  { id: 6, label: "Ens", value: "ens", disabled: true },
+  { id: 6, label: "ENS", value: "ens", disabled: true },
   { id: 7, label: "Blocks", value: "blocks", disabled: true },
 ];
 
@@ -33,15 +33,15 @@ const AddressSection = ({ transactions, tokenTransfers, nftTransfers }) => {
   }, [activeTab, transactions, tokenTransfers, nftTransfers]);
 
   return (
-    <div>
-      <div className="flex mt-3">
-        <TabButton
-          defaultActiveKey={activeTab}
-          items={TABS}
-          onTabButtonClick={onTabButtonClick}
-        />
+    <div className="space-y-4">
+      <TabButton
+        defaultActiveKey={activeTab}
+        items={TABS}
+        onTabButtonClick={onTabButtonClick}
+      />
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        {getActiveTabContent()}
       </div>
-      <div>{getActiveTabContent()}</div>
     </div>
   );
 };

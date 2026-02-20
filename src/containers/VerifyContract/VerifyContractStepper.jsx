@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ContractDetails from "./ContractDetails";
-import Stepper from "../../components/UI/Stepper";
 import ContractVerificationAdvancedForm from "./ContractVerificationAdvanceForm";
 import { compileContract } from "../../helpers/compileContract";
 import {
@@ -10,16 +9,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { isContract } from "../../utils";
 
-const STEPS = [
-  {
-    key: 1,
-    label: "Enter Contract Details",
-  },
-  {
-    key: 2,
-    label: "Verify and Publish",
-  },
-];
+const STEPS = ["Enter Contract Details", "Verify and Publish"];
 
 const VerifyContractStepper = () => {
   const [step, setStep] = useState(1);
@@ -70,24 +60,57 @@ const VerifyContractStepper = () => {
 
   return (
     <div>
-      <div className="mt-5">
-        <Stepper items={STEPS} current={step} />
+      <div className="flex items-center justify-center gap-4 py-6">
+        {STEPS.map((label, index) => (
+          <div key={index} className="flex items-center gap-3">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors ${
+                index + 1 <= step
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {index + 1}
+            </div>
+            <span
+              className={`text-sm ${
+                index + 1 <= step
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground"
+              }`}
+            >
+              {label}
+            </span>
+            {index < STEPS.length - 1 && (
+              <div
+                className={`h-px w-12 ${
+                  index + 1 < step ? "bg-primary" : "bg-border"
+                }`}
+              />
+            )}
+          </div>
+        ))}
       </div>
 
-      <div className="my-6">
+      <div className="mt-4">
         {step === 1 && (
-          <div>
-            <ContractDetails
-              step={step}
-              contractDetails={contractDetails}
-              onContinueClick={onContinueClick}
-            />
-          </div>
+          <ContractDetails
+            step={step}
+            contractDetails={contractDetails}
+            onContinueClick={onContinueClick}
+          />
         )}
         {step === 2 && (
-          <div>
+          <>
             {loading ? (
-              <p> Loading ... </p>
+              <div className="flex items-center justify-center py-12">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                  <span className="text-muted-foreground text-sm">
+                    Compiling and verifying...
+                  </span>
+                </div>
+              </div>
             ) : (
               <ContractVerificationAdvancedForm
                 step={step}
@@ -96,7 +119,7 @@ const VerifyContractStepper = () => {
                 onSubmitClick={onSubmitClick}
               />
             )}
-          </div>
+          </>
         )}
       </div>
     </div>

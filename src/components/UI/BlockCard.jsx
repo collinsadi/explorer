@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { BanknotesIcon } from "@heroicons/react/24/solid";
+import { CubeIcon, ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 
 import { roundUpNumber, truncateAddress } from "../../utils";
 import { ethers } from "ethers";
@@ -26,88 +26,92 @@ const ListCard = ({
 }) => {
   return (
     <div
-      className={`p-2 rounded-lg relative my-2 ${isLoading && "animate-pulse"}`}
+      className={`group px-3 py-3 rounded-lg transition-colors hover:bg-muted/50 ${
+        isLoading ? "animate-pulse" : ""
+      }`}
     >
-      <div className="absolute justify-center text-lg items-center top-[25%] left-[3%] hidden md:block">
-        {!isTransaction ? "Bk" : "Tx"}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-8 gap-2 md:ml-12">
-        <div className="col-span-2">
-          {!isTransaction ? (
-            <Link
-              to={`/block/${blockNumber}`}
-              className="text-blue-500 font-bold"
-            >
-              {blockNumber}
-            </Link>
+      <div className="flex items-center gap-3">
+        <div className="hidden sm:flex items-center justify-center w-10 h-10 rounded-lg bg-muted shrink-0">
+          {isTransaction ? (
+            <ArrowsRightLeftIcon className="w-4 h-4 text-muted-foreground" />
           ) : (
-            <Link to={`/tx/${txhash}`} className="text-blue-500 font-bold">
-              {truncateAddress(txhash)}
-            </Link>
+            <CubeIcon className="w-4 h-4 text-muted-foreground" />
           )}
-          <div className="text-gray-500">
-            {dayjs.unix(timeStamp).isAfter(dayjs())
-              ? dayjs.unix(timeStamp).fromNow()
-              : dayjs().to(dayjs.unix(timeStamp))}
-          </div>
         </div>
 
-        {!isTransaction ? (
-          <div className="col-span-4">
-            <div className="text-gray-700">
-              <span className="font-semibold">Producer: </span>
+        <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-8 gap-1 sm:gap-3">
+          <div className="col-span-2">
+            {!isTransaction ? (
               <Link
-                to={`/address/${producer}`}
-                className="text-blue-500 truncate"
+                to={`/block/${blockNumber}`}
+                className="text-link font-semibold text-sm hover:opacity-80"
               >
-                {truncateAddress(producer)}
+                {blockNumber}
               </Link>
+            ) : (
+              <Link
+                to={`/tx/${txhash}`}
+                className="text-link font-semibold text-sm hover:opacity-80"
+              >
+                {truncateAddress(txhash)}
+              </Link>
+            )}
+            <div className="text-muted-foreground text-xs">
+              {dayjs.unix(timeStamp).isAfter(dayjs())
+                ? dayjs.unix(timeStamp).fromNow()
+                : dayjs().to(dayjs.unix(timeStamp))}
             </div>
-            <div className="flex">
-              <span className="font-bold">{txns} txs &nbsp;</span>
-              <div className="text-gray-500">
-                <span className="font-semibold"> Reward: </span>
-                {roundUpNumber(totalGasFees)} ETH
+          </div>
+
+          {!isTransaction ? (
+            <div className="col-span-4">
+              <div className="text-sm">
+                <span className="text-muted-foreground">Producer </span>
+                <Link
+                  to={`/address/${producer}`}
+                  className="text-link hover:opacity-80"
+                >
+                  {truncateAddress(producer)}
+                </Link>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-foreground font-medium">
+                  {txns} txs
+                </span>
+                <span className="text-muted-foreground">
+                  Reward: {roundUpNumber(totalGasFees)} ETH
+                </span>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="col-span-4">
-            <div className="text-gray-700">
-              <span className="font-semibold">From: &nbsp;</span>
-              <Link
-                to={`/address/${txFrom}`}
-                className="text-blue-500 truncate"
-              >
-                {truncateAddress(txFrom)}
-              </Link>
+          ) : (
+            <div className="col-span-4">
+              <div className="text-sm">
+                <span className="text-muted-foreground">From </span>
+                <Link
+                  to={`/address/${txFrom}`}
+                  className="text-link hover:opacity-80"
+                >
+                  {truncateAddress(txFrom)}
+                </Link>
+              </div>
+              <div className="text-sm">
+                <span className="text-muted-foreground">To </span>
+                <Link
+                  to={`/address/${txTo || creates}`}
+                  className="text-link hover:opacity-80"
+                >
+                  {txTo ? truncateAddress(txTo) : "Create: Contract"}
+                </Link>
+              </div>
             </div>
-            <div className="flex ">
-              <span className="font-semibold">To: &nbsp;</span>
-              <Link
-                to={`/address/${!!txTo ? txTo : creates}`}
-                className="text-blue-500 truncate"
-              >
-                {!!txTo ? truncateAddress(txTo) : "Create: Contract"}
-              </Link>
-            </div>
-          </div>
-        )}
+          )}
 
-        <div className="flex col-span-2 justify-start items-start sm:justify-center sm:items-center">
-          <div className="flex items-center h-fit bg-[#e1dede6b] rounded">
-            {!isTransaction && <BanknotesIcon className="w-4 h-4" />}
-            {!isTransaction ? (
-              <span className="ml-2 font-extrabold">
-                {`${roundUpNumber(averageGasPrice)} Gwei`}
-              </span>
-            ) : (
-              <span className="ml-2 font-extrabold">
-                {`${roundUpNumber(
-                  ethers.utils.formatUnits(txValue, "ether")
-                )} Eth`}
-              </span>
-            )}
+          <div className="flex col-span-2 items-center sm:justify-center">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-muted text-xs font-semibold text-foreground">
+              {!isTransaction
+                ? `${roundUpNumber(averageGasPrice)} Gwei`
+                : `${roundUpNumber(ethers.utils.formatUnits(txValue, "ether"))} Eth`}
+            </span>
           </div>
         </div>
       </div>

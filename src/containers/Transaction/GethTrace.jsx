@@ -7,6 +7,7 @@ const COLUMNS = [
     title: "Step",
     dataIndex: "step",
     key: "step",
+    render: (text) => <span className="text-muted-foreground text-sm">{text}</span>,
   },
   {
     title: "PC",
@@ -17,10 +18,12 @@ const COLUMNS = [
     title: "Operation",
     dataIndex: "op",
     key: "operation",
-    render: (text) => <span className="font-bold">{text}</span>,
+    render: (text) => (
+      <span className="font-mono font-semibold text-sm text-primary">{text}</span>
+    ),
   },
   {
-    title: "Gas limit",
+    title: "Gas Limit",
     dataIndex: "gas",
     key: "gasLimittxs",
   },
@@ -51,18 +54,21 @@ const GethTraces = ({ transaction }) => {
   }, [trace]);
 
   return (
-    <div className="p-6">
-      <div className="flex text-gray-500 text-sm justify-between">
-        <span>Total {trace?.structLogs?.length || 0} steps</span>
+    <div className="p-5">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-muted-foreground text-sm">
+          Total {trace?.structLogs?.length || 0} steps
+        </span>
       </div>
 
       <Table
-        size="large"
-        className="mt-4 overflow-x-scroll"
+        size="middle"
         columns={COLUMNS}
         dataSource={traceData}
+        scroll={{ x: true }}
         pagination={{
-          position: "bottom-right",
+          position: ["bottomRight"],
+          showSizeChanger: false,
         }}
       />
     </div>
