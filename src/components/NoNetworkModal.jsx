@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import React from "react";
 
-const NoNetworkModal = ({ open, onOkayClick }) => {
+const NoNetworkModal = ({ open, onOkayClick, error }) => {
   return (
     <Modal
       title="No Network Detected"
@@ -13,8 +13,13 @@ const NoNetworkModal = ({ open, onOkayClick }) => {
       onOk={onOkayClick}
     >
       <p>
-        Please make sure your hardhat node is running, try `npx hardhat node`
+        Please make sure your hardhat node is running, try <code>npx hardhat node</code>
       </p>
+      {error && (
+        <p className="mt-2 text-red-600 text-sm">
+          {error}
+        </p>
+      )}
     </Modal>
   );
 };

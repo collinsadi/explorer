@@ -52,7 +52,7 @@ const NAVBAR = [
 
 const AppLayout = () => {
   const navigate = useNavigate();
-  const { isReady, refreshBlockchainData, loading } = useIsBlockchainReady();
+  const { isReady, refreshBlockchainData, loading, error } = useIsBlockchainReady();
 
   const handleMenuClick = (item) => {
     navigate(item.key);
@@ -74,6 +74,7 @@ const AppLayout = () => {
         <NoNetworkModal
           open={!loading && !isReady}
           onOkayClick={refreshBlockchainData}
+          error={error}
         />
         <Routes>
           {routes.map(({ path, component }) => (
